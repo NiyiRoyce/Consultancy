@@ -1,0 +1,26 @@
+{
+  "name": "my-portfolio-consulting-site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@mdx-js/react": "^3.1.1",
+    "@next/mdx": "^16.0.10",
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@mdx-js/loader": "^2.3.0",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "25.0.1",
+    "@types/react": "19.2.7",
+    "autoprefixer": "^10.4.22",
+    "tailwindcss": "^4.1.18",
+    "typescript": "5.9.3"
+  }
+}
