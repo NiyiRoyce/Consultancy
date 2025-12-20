@@ -30,35 +30,45 @@ export const Navbar: React.FC = () => {
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800/50'
+          ? 'bg-black/80 backdrop-blur-md border-b border-gray-900'
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="group flex items-center gap-3">
-            <div className="relative w-12 h-12 bg-white rounded-full flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:bg-zinc-100 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-white/20">
-              <span className="text-black font-bold text-lg">AA</span>
+            <div className="relative">
+              <div className="w-10 h-10 border border-gray-800 group-hover:border-white transition-all duration-300 flex items-center justify-center">
+                <span className="text-white font-semibold text-sm tracking-tight">AA</span>
+              </div>
             </div>
-            <span className="text-sm font-medium text-zinc-400 group-hover:text-white transition-colors duration-300 hidden sm:block">
+            <span className="text-xs tracking-[0.2em] uppercase text-gray-600 group-hover:text-white transition-colors duration-300 hidden sm:block font-medium">
               Adeniyi Adebowale
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-1">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-medium transition-colors duration-300 hover:text-white ${
-                  isActive(item.href) 
-                    ? 'text-white underline underline-offset-4' 
-                    : 'text-zinc-400'
-                }`}
+                className="relative group px-4 py-2"
               >
-                {item.name}
+                <span className={`text-xs tracking-wide font-light transition-colors duration-300 ${
+                  isActive(item.href) 
+                    ? 'text-white' 
+                    : 'text-gray-500 group-hover:text-white'
+                }`}>
+                  {item.name}
+                </span>
+                {/* Active indicator */}
+                {isActive(item.href) && (
+                  <div className="absolute bottom-0 left-0 right-0 h-px bg-white"></div>
+                )}
+                {/* Hover indicator */}
+                <div className="absolute bottom-0 left-0 right-0 h-px bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
               </Link>
             ))}
           </div>
@@ -66,18 +76,17 @@ export const Navbar: React.FC = () => {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-white p-2 hover:bg-zinc-800/50 rounded-lg transition-colors duration-300"
+            className="md:hidden text-gray-500 hover:text-white p-2 transition-colors duration-300"
             aria-label="Toggle menu"
           >
             <svg
-              className="h-6 w-6 transition-transform duration-300"
+              className="h-5 w-5"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="2"
+              strokeWidth="1.5"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              style={{ transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
             >
               {isOpen ? (
                 <path d="M6 18L18 6M6 6l12 12" />
@@ -91,23 +100,32 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Navigation */}
       <div
-        className={`md:hidden border-t border-zinc-800/50 bg-zinc-950/95 backdrop-blur-md overflow-hidden transition-all duration-300 ${
-          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        className={`md:hidden border-t border-gray-900 bg-black transition-all duration-300 ${
+          isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
         }`}
       >
-        <div className="px-4 py-4 space-y-1">
+        <div className="px-6 py-6 space-y-1">
           {navigation.map((item) => (
             <Link
               key={item.name}
               href={item.href}
               onClick={() => setIsOpen(false)}
-              className={`block px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-300 hover:text-white hover:bg-zinc-800/50 ${
-                isActive(item.href) 
-                  ? 'text-white bg-zinc-800/30' 
-                  : 'text-zinc-400'
-              }`}
+              className="group relative block"
             >
-              {item.name}
+              <div className={`flex items-center justify-between py-4 border-b border-gray-900 group-hover:border-gray-800 transition-all duration-300 ${
+                isActive(item.href) ? 'border-gray-700' : ''
+              }`}>
+                <span className={`text-sm font-light transition-colors duration-300 ${
+                  isActive(item.href) 
+                    ? 'text-white' 
+                    : 'text-gray-500 group-hover:text-white'
+                }`}>
+                  {item.name}
+                </span>
+                <span className="text-gray-700 group-hover:text-white group-hover:translate-x-1 transition-all duration-300">
+                  →
+                </span>
+              </div>
             </Link>
           ))}
         </div>
