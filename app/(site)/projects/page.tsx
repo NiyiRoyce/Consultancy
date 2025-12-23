@@ -1,6 +1,5 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
 
 // Mock data - replace with your actual getRepos() data
 const mockRepos = [
@@ -81,7 +80,7 @@ export default function ProjectsPage() {
                 Portfolio
               </span>
             </div>
-            <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-none mb-8">
+            <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-none mb-8 text-white">
               My Projects
             </h1>
             <p className="text-base text-gray-500 max-w-2xl leading-relaxed font-light">
@@ -91,19 +90,19 @@ export default function ProjectsPage() {
           </div>
 
           {/* Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-32">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
             {repos.map((repo) => (
-              <Link
+              <a
                 key={repo.id}
                 href={`/projects/${repo.slug}`}
-                className="group bg-white p-8 transition-all duration-300 relative flex flex-col"
+                className="group bg-white border border-gray-200 p-10 transition-all duration-300 relative flex flex-col hover:border-gray-300"
               >
                 {/* Top border on hover */}
                 <div className="absolute top-0 left-0 right-0 h-px bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
                 
                 {/* Language/Topic Header */}
                 <div className="mb-4">
-                  <span className="text-[10px] tracking-[0.3em] uppercase text-gray-500 font-medium">
+                  <span className="text-[10px] tracking-[0.3em] uppercase text-gray-400 font-medium">
                     {repo.language || 'Project'}
                   </span>
                 </div>
@@ -111,18 +110,18 @@ export default function ProjectsPage() {
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
-                    <h2 className="text-xl font-semibold tracking-tight text-black group-hover:opacity-70 transition-opacity duration-300">
+                    <h2 className="text-xl font-semibold tracking-tight text-black group-hover:text-gray-700 transition-colors duration-300">
                       {repo.name}
                     </h2>
                   </div>
                   <div className="flex-shrink-0 ml-3">
-                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-black group-hover:translate-x-1 transition-all duration-300" />
+                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-300" />
                   </div>
                 </div>
 
                 {/* Description */}
                 {repo.description && (
-                  <p className="text-sm text-gray-600 leading-relaxed flex-grow font-light group-hover:text-gray-500 transition-colors duration-300">
+                  <p className="text-sm text-gray-500 leading-relaxed flex-grow font-light group-hover:text-gray-600 transition-colors duration-300 mb-6">
                     {repo.description}
                   </p>
                 )}
@@ -131,15 +130,15 @@ export default function ProjectsPage() {
                 <div className="flex items-center gap-3 text-xs pt-6 mt-auto border-t border-gray-200">
                   {repo.language && (
                     <div className="flex items-center gap-1.5">
-                      <div className="w-2 h-2 rounded-full bg-black"></div>
-                      <span className="font-medium text-gray-700">{repo.language}</span>
+                      <div className="w-2 h-2 rounded-full bg-gray-400"></div>
+                      <span className="font-medium text-gray-500">{repo.language}</span>
                     </div>
                   )}
                 </div>
 
                 {/* Subtle background on hover */}
                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-[0.02] transition-opacity duration-300 pointer-events-none"></div>
-              </Link>
+              </a>
             ))}
           </div>
 
@@ -150,7 +149,7 @@ export default function ProjectsPage() {
                 More on GitHub
               </span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 text-white">
               Want to see more?
             </h2>
             <p className="text-base text-gray-500 mb-12 max-w-xl mx-auto leading-relaxed font-light">
@@ -160,9 +159,10 @@ export default function ProjectsPage() {
               href="https://github.com/niyiroyce"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-8 py-4 bg-white text-black text-sm font-medium tracking-wide hover:bg-gray-100 transition-all duration-300"
+              className="group inline-block px-8 py-4 border border-white text-white hover:bg-white hover:text-black transition-all duration-300 font-medium text-sm tracking-wide"
             >
               Visit GitHub Profile
+              <span className="inline-block ml-2 transform group-hover:translate-x-1 transition-transform duration-300">→</span>
             </a>
           </div>
         </div>

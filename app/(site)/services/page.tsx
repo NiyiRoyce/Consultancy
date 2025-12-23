@@ -1,11 +1,23 @@
 "use client";
 import React, { useState } from 'react';
+import { 
+  Server, 
+  Network, 
+  Cloud, 
+  Plug, 
+  GitBranch, 
+  Activity, 
+  Database, 
+  Shield, 
+  Lightbulb 
+} from 'lucide-react';
 
 const ServicesSection = () => {
   const [activeService, setActiveService] = useState<number | null>(null);
 
   const services = [
     {
+      icon: Server,
       title: "Backend Application Development",
       description: "Design and build scalable backend systems with robust APIs and modern architecture",
       details: [
@@ -13,10 +25,10 @@ const ServicesSection = () => {
         "RESTful and event-driven APIs",
         "Production-ready business logic",
         "Legacy codebase modernization"
-      ],
-      icon: "⚡"
+      ]
     },
     {
+      icon: Network,
       title: "Distributed Systems & Microservices",
       description: "Enterprise-grade microservice architecture for high-performance applications",
       details: [
@@ -24,10 +36,10 @@ const ServicesSection = () => {
         "Event-driven systems",
         "Service orchestration",
         "Concurrency and scaling solutions"
-      ],
-      icon: "🔷"
+      ]
     },
     {
+      icon: Cloud,
       title: "Cloud Infrastructure & AWS Engineering",
       description: "Comprehensive AWS solutions with optimized infrastructure and cost efficiency",
       details: [
@@ -35,10 +47,10 @@ const ServicesSection = () => {
         "Containerized Docker deployments",
         "Infrastructure-as-Code",
         "Cost optimization strategies"
-      ],
-      icon: "☁️"
+      ]
     },
     {
+      icon: Plug,
       title: "API Design & Integration",
       description: "Developer-friendly APIs with seamless third-party integrations",
       details: [
@@ -46,10 +58,10 @@ const ServicesSection = () => {
         "Third-party integrations",
         "Performance optimization",
         "Comprehensive documentation"
-      ],
-      icon: "🔌"
+      ]
     },
     {
+      icon: GitBranch,
       title: "DevOps & CI/CD Automation",
       description: "Streamlined deployment pipelines with automated testing and workflows",
       details: [
@@ -57,10 +69,10 @@ const ServicesSection = () => {
         "Automated testing workflows",
         "Multi-environment setup",
         "Git-based release automation"
-      ],
-      icon: "🔄"
+      ]
     },
     {
+      icon: Activity,
       title: "System Reliability & Performance",
       description: "Production-grade observability and performance engineering for mission-critical systems",
       details: [
@@ -68,10 +80,10 @@ const ServicesSection = () => {
         "Performance tuning and testing",
         "Fault tolerance systems",
         "Incident response protocols"
-      ],
-      icon: "📊"
+      ]
     },
     {
+      icon: Database,
       title: "Database Design & Data Engineering",
       description: "High-performance database solutions with optimized data pipelines",
       details: [
@@ -79,10 +91,10 @@ const ServicesSection = () => {
         "High-throughput data pipelines",
         "Query optimization",
         "Redis caching strategies"
-      ],
-      icon: "💾"
+      ]
     },
     {
+      icon: Shield,
       title: "Security & Compliance Engineering",
       description: "Enterprise security implementation with payment platform expertise",
       details: [
@@ -90,10 +102,10 @@ const ServicesSection = () => {
         "Payment platform development",
         "Data protection practices",
         "Security audits and hardening"
-      ],
-      icon: "🔒"
+      ]
     },
     {
+      icon: Lightbulb,
       title: "Backend Architecture Consulting",
       description: "Strategic technical guidance for scaling and modernization initiatives",
       details: [
@@ -101,8 +113,7 @@ const ServicesSection = () => {
         "Scaling assessments",
         "Migration planning",
         "Best-practice guidance"
-      ],
-      icon: "🎯"
+      ]
     }
   ];
 
@@ -116,20 +127,20 @@ const ServicesSection = () => {
               Services
             </span>
           </div>
-          <h2 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight leading-none">
+          <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight leading-none">
             Engineering<br />Excellence
-          </h2>
+          </h1>
           <p className="text-lg text-gray-500 max-w-2xl mt-8 font-light">
             Specialized backend engineering and infrastructure solutions for modern, scalable applications
           </p>
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-900">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <div
               key={index}
-              className="group relative bg-black p-10 transition-all duration-300 cursor-pointer"
+              className="group relative bg-black border border-gray-900 p-12 transition-all duration-300 cursor-pointer hover:border-gray-800"
               onMouseEnter={() => setActiveService(index)}
               onMouseLeave={() => setActiveService(null)}
             >
@@ -139,8 +150,11 @@ const ServicesSection = () => {
               {/* Card Content */}
               <div className="relative">
                 {/* Icon */}
-                <div className="text-4xl mb-8 opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                  {service.icon}
+                <div className="mb-6">
+                  <service.icon 
+                    className="w-8 h-8 text-gray-700 group-hover:text-gray-500 transition-colors duration-300" 
+                    strokeWidth={1.5}
+                  />
                 </div>
 
                 {/* Title */}
