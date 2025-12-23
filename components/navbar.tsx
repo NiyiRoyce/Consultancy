@@ -63,12 +63,10 @@ export const Navbar: React.FC = () => {
                 }`}>
                   {item.name}
                 </span>
-                {/* Active indicator */}
+                {/* Active indicator - only show for active links */}
                 {isActive(item.href) && (
                   <div className="absolute bottom-0 left-0 right-0 h-px bg-white"></div>
                 )}
-                {/* Hover indicator */}
-                <div className="absolute bottom-0 left-0 right-0 h-px bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
               </Link>
             ))}
           </div>

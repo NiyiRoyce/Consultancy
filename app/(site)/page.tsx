@@ -1,6 +1,41 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 
+// Button Components
+const PrimaryButton: React.FC<{ href: string; children: React.ReactNode; className?: string }> = ({ 
+  href, 
+  children, 
+  className = "" 
+}) => (
+  <a
+    href={href}
+    className={`px-8 py-4 bg-white text-black text-sm font-medium tracking-wide hover:bg-gray-100 transition-all duration-300 ${className}`}
+  >
+    {children}
+  </a>
+);
+
+const SecondaryButton: React.FC<{ 
+  href: string; 
+  children: React.ReactNode; 
+  className?: string;
+  external?: boolean;
+}> = ({ 
+  href, 
+  children, 
+  className = "",
+  external = false 
+}) => (
+  <a
+    href={href}
+    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    className={`group relative px-8 py-4 border border-gray-800 text-white text-sm font-medium tracking-wide transition-all duration-300 ${className}`}
+  >
+    <span className="relative z-10">{children}</span>
+    <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+  </a>
+);
+
 export default function HomePage() {
   const [currentTitle, setCurrentTitle] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -11,8 +46,6 @@ export default function HomePage() {
   const titles = [
     "Software Engineer",
     "ML Engineer",
-    "Backend Architect",
-    "Data Scientist",
     "Cloud Engineer",
   ];
 
@@ -96,7 +129,7 @@ export default function HomePage() {
         ref={heroRef}
         className="min-h-screen flex items-center justify-center px-6 py-32 relative"
       >
-        {/* Robot Head */}
+        {/* Network Globe */}
         <div className="hidden lg:block absolute right-12 top-1/3 -translate-y-1/2 pointer-events-none">
           <div
             ref={robotRef}
@@ -110,66 +143,124 @@ export default function HomePage() {
             }}
           >
             {/* Glow effect */}
-            <div className="absolute inset-0 bg-white/20 blur-3xl rounded-full scale-150 animate-pulse" />
+            <div className="absolute inset-0 bg-white/10 blur-3xl rounded-full scale-150 animate-pulse" />
 
-            {/* Robot Head SVG */}
-            <svg width="280" height="320" viewBox="0 0 280 320" className="relative">
-              <line
-                x1="140"
-                y1="20"
-                x2="140"
-                y2="60"
-                stroke="#ffffff"
-                strokeWidth="3"
-                strokeLinecap="round"
-              />
-              <circle cx="140" cy="15" r="6" fill="#ffffff">
-                <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite" />
+            {/* Network Globe SVG */}
+            <svg width="320" height="320" viewBox="0 0 320 320" className="relative">
+              {/* Globe circle */}
+              <circle cx="160" cy="160" r="140" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.2" />
+              <circle cx="160" cy="160" r="120" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.15" />
+              <circle cx="160" cy="160" r="100" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
+              
+              {/* Latitude lines */}
+              <ellipse cx="160" cy="160" rx="140" ry="40" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
+              <ellipse cx="160" cy="160" rx="140" ry="80" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
+              <ellipse cx="160" cy="160" rx="140" ry="120" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
+              
+              {/* Longitude lines */}
+              <ellipse cx="160" cy="160" rx="40" ry="140" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
+              <ellipse cx="160" cy="160" rx="80" ry="140" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
+              <ellipse cx="160" cy="160" rx="120" ry="140" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
+
+              {/* Connection lines */}
+              <line x1="100" y1="80" x2="180" y2="120" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite" />
+              </line>
+              <line x1="180" y1="120" x2="220" y2="160" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2.5s" repeatCount="indefinite" />
+              </line>
+              <line x1="100" y1="80" x2="60" y2="140" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="opacity" values="0.15;0.45;0.15" dur="2.8s" repeatCount="indefinite" />
+              </line>
+              <line x1="220" y1="160" x2="240" y2="220" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3.2s" repeatCount="indefinite" />
+              </line>
+              <line x1="60" y1="140" x2="120" y2="200" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2.6s" repeatCount="indefinite" />
+              </line>
+              <line x1="180" y1="120" x2="160" y2="180" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="opacity" values="0.15;0.4;0.15" dur="2.9s" repeatCount="indefinite" />
+              </line>
+              <line x1="120" y1="200" x2="160" y2="180" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="opacity" values="0.1;0.35;0.1" dur="3.1s" repeatCount="indefinite" />
+              </line>
+              <line x1="160" y1="180" x2="240" y2="220" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="opacity" values="0.2;0.45;0.2" dur="2.7s" repeatCount="indefinite" />
+              </line>
+              <line x1="60" y1="140" x2="180" y2="120" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="opacity" values="0.15;0.4;0.15" dur="3s" repeatCount="indefinite" />
+              </line>
+
+              {/* Network nodes - Pulsing */}
+              {/* North America */}
+              <circle cx="100" cy="80" r="3" fill="#ffffff">
+                <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite" />
               </circle>
-              <rect x="60" y="60" width="160" height="180" rx="20" fill="#1a1a1a" stroke="#ffffff" strokeWidth="2" />
-              <rect x="75" y="80" width="130" height="140" rx="15" fill="#0a0a0a" stroke="#ffffff" strokeWidth="1.5" />
-              <g>
-                <rect x="95" y="120" width="35" height="25" rx="5" fill="#ffffff">
-                  <animate attributeName="height" values="25;3;25" dur="3s" repeatCount="indefinite" />
-                  <animate attributeName="y" values="120;131;120" dur="3s" repeatCount="indefinite" />
-                </rect>
-                <rect x="95" y="120" width="35" height="25" rx="5" fill="#e5e5e5" opacity="0.5">
-                  <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite" />
-                </rect>
-                <rect x="150" y="120" width="35" height="25" rx="5" fill="#ffffff">
-                  <animate attributeName="height" values="25;3;25" dur="3s" repeatCount="indefinite" />
-                  <animate attributeName="y" values="120;131;120" dur="3s" repeatCount="indefinite" />
-                </rect>
-                <rect x="150" y="120" width="35" height="25" rx="5" fill="#e5e5e5" opacity="0.5">
-                  <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite" />
-                </rect>
-              </g>
-              <rect x="95" y="170" width="90" height="30" rx="8" fill="#1a1a1a" stroke="#ffffff" strokeWidth="1.5" />
-              <g>
-                <line x1="100" y1="185" x2="110" y2="185" stroke="#ffffff" strokeWidth="2" strokeLinecap="round">
-                  <animate attributeName="x2" values="110;180;110" dur="2s" repeatCount="indefinite" />
-                </line>
-              </g>
-              <rect x="48" y="100" width="12" height="60" rx="4" fill="#1a1a1a" stroke="#ffffff" strokeWidth="1.5" />
-              <rect x="220" y="100" width="12" height="60" rx="4" fill="#1a1a1a" stroke="#ffffff" strokeWidth="1.5" />
-              <circle cx="54" cy="115" r="3" fill="#ffffff">
-                <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" />
+              <circle cx="100" cy="80" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="r" values="6;12;6" dur="2s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite" />
               </circle>
-              <circle cx="54" cy="145" r="3" fill="#ffffff">
-                <animate attributeName="opacity" values="0.3;1;0.3" dur="1s" repeatCount="indefinite" />
+
+              {/* Europe */}
+              <circle cx="180" cy="120" r="3" fill="#ffffff">
+                <animate attributeName="r" values="3;5;3" dur="2.3s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="2.3s" repeatCount="indefinite" />
               </circle>
-              <circle cx="226" cy="115" r="3" fill="#ffffff">
-                <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite" />
+              <circle cx="180" cy="120" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="r" values="6;12;6" dur="2.3s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.3;0;0.3" dur="2.3s" repeatCount="indefinite" />
               </circle>
-              <circle cx="226" cy="145" r="3" fill="#ffffff">
-                <animate attributeName="opacity" values="0.3;1;0.3" dur="1s" repeatCount="indefinite" />
+
+              {/* Asia */}
+              <circle cx="220" cy="160" r="3" fill="#ffffff">
+                <animate attributeName="r" values="3;5;3" dur="2.5s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="2.5s" repeatCount="indefinite" />
               </circle>
-              <rect x="110" y="240" width="60" height="40" rx="8" fill="#1a1a1a" stroke="#ffffff" strokeWidth="2" />
-              <line x1="125" y1="245" x2="125" y2="275" stroke="#d4d4d4" strokeWidth="1" />
-              <line x1="140" y1="245" x2="140" y2="275" stroke="#d4d4d4" strokeWidth="1" />
-              <line x1="155" y1="245" x2="155" y2="275" stroke="#d4d4d4" strokeWidth="1" />
-              <path d="M 75 100 L 90 100 L 95 110" stroke="#d4d4d4" strokeWidth="1" fill="none" opacity="0.6" />
-              <path d="M 205 100 L 190 100 L 185 110" stroke="#d4d4d4" strokeWidth="1" fill="none" opacity="0.6" />
+              <circle cx="220" cy="160" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="r" values="6;12;6" dur="2.5s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.3;0;0.3" dur="2.5s" repeatCount="indefinite" />
+              </circle>
+
+              {/* South America */}
+              <circle cx="120" cy="200" r="3" fill="#ffffff">
+                <animate attributeName="r" values="3;5;3" dur="2.7s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="2.7s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="120" cy="200" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="r" values="6;12;6" dur="2.7s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.3;0;0.3" dur="2.7s" repeatCount="indefinite" />
+              </circle>
+
+              {/* Africa */}
+              <circle cx="160" cy="180" r="3" fill="#ffffff">
+                <animate attributeName="r" values="3;5;3" dur="2.2s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="2.2s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="160" cy="180" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="r" values="6;12;6" dur="2.2s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.3;0;0.3" dur="2.2s" repeatCount="indefinite" />
+              </circle>
+
+              {/* Oceania */}
+              <circle cx="240" cy="220" r="3" fill="#ffffff">
+                <animate attributeName="r" values="3;5;3" dur="2.4s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="2.4s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="240" cy="220" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="r" values="6;12;6" dur="2.4s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.3;0;0.3" dur="2.4s" repeatCount="indefinite" />
+              </circle>
+
+              {/* Additional nodes */}
+              <circle cx="60" cy="140" r="3" fill="#ffffff">
+                <animate attributeName="r" values="3;5;3" dur="2.6s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="2.6s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="60" cy="140" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
+                <animate attributeName="r" values="6;12;6" dur="2.6s" repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.3;0;0.3" dur="2.6s" repeatCount="indefinite" />
+              </circle>
             </svg>
           </div>
         </div>
@@ -209,18 +300,12 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-wrap gap-4 pt-8">
-              <a
-                href="#projects"
-                className="px-8 py-4 bg-white text-black text-sm font-medium tracking-wide hover:bg-gray-100 transition-all duration-300"
-              >
+              <PrimaryButton href="#projects">
                 View Projects
-              </a>
-              <a
-                href="#contact"
-                className="px-8 py-4 border border-gray-800 text-white text-sm font-medium tracking-wide hover:border-white hover:bg-white hover:text-black transition-all duration-300"
-              >
+              </PrimaryButton>
+              <SecondaryButton href="#contact">
                 Get In Touch
-              </a>
+              </SecondaryButton>
             </div>
           </div>
         </div>
@@ -309,12 +394,9 @@ export default function HomePage() {
           </div>
 
           <div className="mt-16 text-center border-t border-gray-900 pt-16">
-            <a 
-              href="/projects"
-              className="inline-block px-8 py-4 border border-gray-800 text-white text-sm font-medium tracking-wide hover:border-white hover:bg-white hover:text-black transition-all duration-300"
-            >
+            <PrimaryButton href="/projects" className="inline-block">
               View All Projects
-            </a>
+            </PrimaryButton>
           </div>
         </div>
       </section>
@@ -337,39 +419,23 @@ export default function HomePage() {
             </div>
             
             <div className="hidden md:flex flex-col gap-4">
-              <a
-                href="mailto:niyi.py@gmail.com"
-                className="px-8 py-4 bg-white text-black text-sm font-medium tracking-wide hover:bg-gray-100 transition-all duration-300"
-              >
+              <PrimaryButton href="mailto:niyi.py@gmail.com">
                 Send a Message
-              </a>
-              <a
-                href="https://linkedin.com/in/neyfrosh"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-4 border border-gray-800 text-white text-sm font-medium tracking-wide hover:border-white hover:bg-white hover:text-black transition-all duration-300 text-center"
-              >
+              </PrimaryButton>
+              <SecondaryButton href="https://linkedin.com/in/neyfrosh" external className="text-center">
                 Connect on LinkedIn
-              </a>
+              </SecondaryButton>
             </div>
           </div>
 
           {/* Mobile buttons */}
           <div className="flex md:hidden flex-col gap-4 mt-12">
-            <a
-              href="mailto:niyi.py@gmail.com"
-              className="px-8 py-4 bg-white text-black text-sm font-medium tracking-wide hover:bg-gray-100 transition-all duration-300 text-center"
-            >
+            <PrimaryButton href="mailto:niyi.py@gmail.com" className="text-center">
               Send a Message
-            </a>
-            <a
-              href="https://linkedin.com/in/neyfrosh"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-4 border border-gray-800 text-white text-sm font-medium tracking-wide hover:border-white hover:bg-white hover:text-black transition-all duration-300 text-center"
-            >
+            </PrimaryButton>
+            <SecondaryButton href="https://linkedin.com/in/neyfrosh" external className="text-center">
               Connect on LinkedIn
-            </a>
+            </SecondaryButton>
           </div>
         </div>
       </section>

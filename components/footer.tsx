@@ -110,7 +110,7 @@ export const Footer: React.FC = () => {
                   className="group flex items-center justify-between py-3 border-b border-gray-900 hover:border-gray-800 transition-all duration-300"
                 >
                   <span className="text-white text-sm font-light">Email</span>
-                  <span className="text-gray-700 group-hover:text-white group-hover:translate-x-1 transition-all duration-300">→</span>
+                  <span className="text-gray-700 group-hover:text-white group-hover:translate-x-1 transition-all duration-300">↗</span>
                 </a>
               </li>
             </ul>

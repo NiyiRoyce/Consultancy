@@ -13,7 +13,8 @@
     "lucide-react": "^0.561.0",
     "next": "^14.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "rss-parser": "^3.13.0"
   },
   "devDependencies": {
     "@mdx-js/loader": "^2.3.0",
