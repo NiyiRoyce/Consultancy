@@ -1,5 +1,7 @@
 "use client";
+
 import React, { useState, useEffect, useRef } from "react";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 // Button Components
 const PrimaryButton: React.FC<{ href: string; children: React.ReactNode; className?: string }> = ({ 
@@ -39,7 +41,6 @@ const SecondaryButton: React.FC<{
 export default function HomePage() {
   const [currentTitle, setCurrentTitle] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const robotRef = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLDivElement | null>(null);
   const [heroSize, setHeroSize] = useState({ width: 0, height: 0 });
 
@@ -129,139 +130,20 @@ export default function HomePage() {
         ref={heroRef}
         className="min-h-screen flex items-center justify-center px-6 py-32 relative"
       >
-        {/* Network Globe */}
+        {/* Lottie Animation */}
         <div className="hidden lg:block absolute right-12 top-1/3 -translate-y-1/2 pointer-events-none">
-          <div
-            ref={robotRef}
-            className="relative"
+          {/* Lottie Animation with float animation only */}
+          <div 
+            className="w-80 h-80"
             style={{
-              transform: `translate(
-                ${(mousePosition.x - heroSize.width / 2) / 50}px, 
-                ${(mousePosition.y - heroSize.height / 2) / 50}px
-              )`,
-              transition: "transform 0.2s ease-out",
+              animation: "float 3s ease-in-out infinite"
             }}
           >
-            {/* Glow effect */}
-            <div className="absolute inset-0 bg-white/10 blur-3xl rounded-full scale-150 animate-pulse" />
-
-            {/* Network Globe SVG */}
-            <svg width="320" height="320" viewBox="0 0 320 320" className="relative">
-              {/* Globe circle */}
-              <circle cx="160" cy="160" r="140" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.2" />
-              <circle cx="160" cy="160" r="120" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.15" />
-              <circle cx="160" cy="160" r="100" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
-              
-              {/* Latitude lines */}
-              <ellipse cx="160" cy="160" rx="140" ry="40" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
-              <ellipse cx="160" cy="160" rx="140" ry="80" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
-              <ellipse cx="160" cy="160" rx="140" ry="120" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
-              
-              {/* Longitude lines */}
-              <ellipse cx="160" cy="160" rx="40" ry="140" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
-              <ellipse cx="160" cy="160" rx="80" ry="140" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
-              <ellipse cx="160" cy="160" rx="120" ry="140" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.1" />
-
-              {/* Connection lines */}
-              <line x1="100" y1="80" x2="180" y2="120" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite" />
-              </line>
-              <line x1="180" y1="120" x2="220" y2="160" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2.5s" repeatCount="indefinite" />
-              </line>
-              <line x1="100" y1="80" x2="60" y2="140" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="opacity" values="0.15;0.45;0.15" dur="2.8s" repeatCount="indefinite" />
-              </line>
-              <line x1="220" y1="160" x2="240" y2="220" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3.2s" repeatCount="indefinite" />
-              </line>
-              <line x1="60" y1="140" x2="120" y2="200" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2.6s" repeatCount="indefinite" />
-              </line>
-              <line x1="180" y1="120" x2="160" y2="180" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="opacity" values="0.15;0.4;0.15" dur="2.9s" repeatCount="indefinite" />
-              </line>
-              <line x1="120" y1="200" x2="160" y2="180" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="opacity" values="0.1;0.35;0.1" dur="3.1s" repeatCount="indefinite" />
-              </line>
-              <line x1="160" y1="180" x2="240" y2="220" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="opacity" values="0.2;0.45;0.2" dur="2.7s" repeatCount="indefinite" />
-              </line>
-              <line x1="60" y1="140" x2="180" y2="120" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="opacity" values="0.15;0.4;0.15" dur="3s" repeatCount="indefinite" />
-              </line>
-
-              {/* Network nodes - Pulsing */}
-              {/* North America */}
-              <circle cx="100" cy="80" r="3" fill="#ffffff">
-                <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite" />
-              </circle>
-              <circle cx="100" cy="80" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="r" values="6;12;6" dur="2s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite" />
-              </circle>
-
-              {/* Europe */}
-              <circle cx="180" cy="120" r="3" fill="#ffffff">
-                <animate attributeName="r" values="3;5;3" dur="2.3s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.6;1;0.6" dur="2.3s" repeatCount="indefinite" />
-              </circle>
-              <circle cx="180" cy="120" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="r" values="6;12;6" dur="2.3s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.3;0;0.3" dur="2.3s" repeatCount="indefinite" />
-              </circle>
-
-              {/* Asia */}
-              <circle cx="220" cy="160" r="3" fill="#ffffff">
-                <animate attributeName="r" values="3;5;3" dur="2.5s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.6;1;0.6" dur="2.5s" repeatCount="indefinite" />
-              </circle>
-              <circle cx="220" cy="160" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="r" values="6;12;6" dur="2.5s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.3;0;0.3" dur="2.5s" repeatCount="indefinite" />
-              </circle>
-
-              {/* South America */}
-              <circle cx="120" cy="200" r="3" fill="#ffffff">
-                <animate attributeName="r" values="3;5;3" dur="2.7s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.6;1;0.6" dur="2.7s" repeatCount="indefinite" />
-              </circle>
-              <circle cx="120" cy="200" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="r" values="6;12;6" dur="2.7s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.3;0;0.3" dur="2.7s" repeatCount="indefinite" />
-              </circle>
-
-              {/* Africa */}
-              <circle cx="160" cy="180" r="3" fill="#ffffff">
-                <animate attributeName="r" values="3;5;3" dur="2.2s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.6;1;0.6" dur="2.2s" repeatCount="indefinite" />
-              </circle>
-              <circle cx="160" cy="180" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="r" values="6;12;6" dur="2.2s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.3;0;0.3" dur="2.2s" repeatCount="indefinite" />
-              </circle>
-
-              {/* Oceania */}
-              <circle cx="240" cy="220" r="3" fill="#ffffff">
-                <animate attributeName="r" values="3;5;3" dur="2.4s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.6;1;0.6" dur="2.4s" repeatCount="indefinite" />
-              </circle>
-              <circle cx="240" cy="220" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="r" values="6;12;6" dur="2.4s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.3;0;0.3" dur="2.4s" repeatCount="indefinite" />
-              </circle>
-
-              {/* Additional nodes */}
-              <circle cx="60" cy="140" r="3" fill="#ffffff">
-                <animate attributeName="r" values="3;5;3" dur="2.6s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.6;1;0.6" dur="2.6s" repeatCount="indefinite" />
-              </circle>
-              <circle cx="60" cy="140" r="6" fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.3">
-                <animate attributeName="r" values="6;12;6" dur="2.6s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.3;0;0.3" dur="2.6s" repeatCount="indefinite" />
-              </circle>
-            </svg>
+            <DotLottieReact
+              src="https://lottie.host/12696f53-0c40-434e-b52d-2ca5c3fb8801/E59Dde3CUo.lottie"
+              loop
+              autoplay
+            />
           </div>
         </div>
 
@@ -309,6 +191,18 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
+        {/* Float animation keyframes */}
+        <style jsx>{`
+          @keyframes float {
+            0%, 100% {
+              transform: translateY(0px);
+            }
+            50% {
+              transform: translateY(-20px);
+            }
+          }
+        `}</style>
       </section>
 
       {/* What I Do Section */}
