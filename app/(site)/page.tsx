@@ -182,10 +182,10 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-wrap gap-4 pt-8">
-              <PrimaryButton href="#projects">
+              <PrimaryButton href="projects">
                 View Projects
               </PrimaryButton>
-              <SecondaryButton href="#contact">
+              <SecondaryButton href="contact">
                 Get In Touch
               </SecondaryButton>
             </div>

@@ -216,7 +216,7 @@ export default function AboutSection() {
 
                 <div className="flex flex-col md:flex-row gap-4">
                   <a
-                    href="#projects"
+                    href="projects"
                     className="group relative px-8 py-4 border border-gray-800 text-white text-sm font-medium tracking-wide transition-all duration-300 text-center flex items-center justify-center gap-2"
                   >
                     <span className="relative z-10">View Projects</span>
@@ -227,7 +227,7 @@ export default function AboutSection() {
                   </a>
 
                   <a
-                    href="#contact"
+                    href="contact"
                     className="group px-8 py-4 bg-white text-black text-sm font-medium tracking-wide hover:bg-gray-200 transition-all duration-300 text-center flex items-center justify-center gap-2"
                   >
                     <span>Get In Touch</span>

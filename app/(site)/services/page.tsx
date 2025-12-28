@@ -200,10 +200,15 @@ const ServicesSection = () => {
               Ready to build something<br />exceptional?
             </h3>
           </div>
-          <button className="group relative px-8 py-4 border border-white hover:bg-white hover:text-black transition-all duration-300 font-medium text-sm tracking-wide">
-            Get in Touch
-            <span className="inline-block ml-2 transform group-hover:translate-x-1 transition-transform duration-300">→</span>
-          </button>
+         <a href="/contact">
+  <button className="group relative px-8 py-4 border border-white hover:bg-white hover:text-black transition-all duration-300 font-medium text-sm tracking-wide">
+    Get in Touch
+    <span className="inline-block ml-2 transform group-hover:translate-x-1 transition-transform duration-300">
+      →
+    </span>
+  </button>
+</a>
+
         </div>
       </div>
     </section>
