@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Portfolio | Consulting & Development',
   description: 'Strategic consulting and development services',
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({
