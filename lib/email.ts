@@ -1,7 +1,5 @@
 import { Resend } from "resend"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 type ContactPayload = {
   name: string
   email: string
@@ -10,6 +8,7 @@ type ContactPayload = {
 
 export async function sendContactEmail(payload: ContactPayload) {
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY)
     await resend.emails.send({
       from: "Contact Form <no-reply@yourdomain.com>",
       to: [process.env.CONTACT_TO_EMAIL!],
