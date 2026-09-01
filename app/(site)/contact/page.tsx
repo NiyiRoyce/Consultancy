@@ -1,32 +1,69 @@
 "use client";
 import React, { useState } from 'react';
-import { Mail, Phone, Linkedin, Github, Twitter, Edit3, ArrowUpRight } from 'lucide-react';
+import { Mail, Phone, Linkedin, Github, Twitter, ArrowUpRight } from 'lucide-react';
+
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2348118482904';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
+  const [isSending, setIsSending] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleChange = (e) => {
+  const isFormValid = Object.values(formData).every((value) => value.trim().length > 0);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
+
+    if (status !== 'idle') {
+      setStatus('idle');
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
+
+    if (!isFormValid) {
+      setStatus('error');
+      return;
+    }
+
+    setIsSending(true);
+    setStatus('idle');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.whatsappUrl) {
+        window.open(data.whatsappUrl, '_blank', 'noopener,noreferrer');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setStatus('success');
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      setStatus('error');
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
     <section className="min-h-screen bg-black text-white py-32 px-6">
       <div className="max-w-7xl mx-auto">
-        {/* Hero Header */}
         <div className="mb-24">
           <div className="inline-block mb-4">
             <span className="text-[10px] tracking-[0.4em] uppercase text-gray-600 font-medium">
@@ -42,10 +79,8 @@ export default function ContactPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-gray-900">
-          {/* Contact Form */}
           <div className="lg:col-span-2 bg-black p-12">
-            <div className="space-y-8">
-              {/* Name Field */}
+            <form onSubmit={handleSubmit} className="space-y-8">
               <div>
                 <label htmlFor="name" className="block text-xs tracking-[0.2em] uppercase text-gray-600 font-medium mb-4">
                   Name
@@ -56,12 +91,12 @@ export default function ContactPage() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
+                  required
                   className="w-full bg-black border-b border-gray-900 text-white text-base font-light py-3 focus:border-white focus:outline-none transition-colors duration-300"
                   placeholder="Your name"
                 />
               </div>
 
-              {/* Email Field */}
               <div>
                 <label htmlFor="email" className="block text-xs tracking-[0.2em] uppercase text-gray-600 font-medium mb-4">
                   Email
@@ -72,12 +107,12 @@ export default function ContactPage() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  required
                   className="w-full bg-black border-b border-gray-900 text-white text-base font-light py-3 focus:border-white focus:outline-none transition-colors duration-300"
                   placeholder="your@email.com"
                 />
               </div>
 
-              {/* Subject Field */}
               <div>
                 <label htmlFor="subject" className="block text-xs tracking-[0.2em] uppercase text-gray-600 font-medium mb-4">
                   Subject
@@ -88,12 +123,12 @@ export default function ContactPage() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
+                  required
                   className="w-full bg-black border-b border-gray-900 text-white text-base font-light py-3 focus:border-white focus:outline-none transition-colors duration-300"
                   placeholder="Project inquiry"
                 />
               </div>
 
-              {/* Message Field */}
               <div>
                 <label htmlFor="message" className="block text-xs tracking-[0.2em] uppercase text-gray-600 font-medium mb-4">
                   Message
@@ -104,36 +139,44 @@ export default function ContactPage() {
                   rows={6}
                   value={formData.message}
                   onChange={handleChange}
+                  required
                   className="w-full bg-black border-b border-gray-900 text-white text-base font-light py-3 focus:border-white focus:outline-none transition-colors duration-300 resize-none"
                   placeholder="Tell me about your project..."
                 />
               </div>
 
-              {/* Submit Button */}
-              <div className="pt-4">
+              <div className="pt-4 space-y-4">
                 <button
-                  onClick={handleSubmit}
-                  className="group px-8 py-4 bg-white text-black text-sm font-medium tracking-wide hover:bg-gray-100 transition-all duration-300 inline-flex items-center gap-2"
+                  type="submit"
+                  disabled={isSending || !isFormValid}
+                  className="group px-8 py-4 bg-white text-black text-sm font-medium tracking-wide hover:bg-gray-100 transition-all duration-300 inline-flex items-center gap-2 disabled:bg-gray-900 disabled:text-gray-600 disabled:cursor-not-allowed"
                 >
-                  Send Message
+                  {isSending ? 'Sending...' : 'Send Message'}
                   <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
                 </button>
+
+                {status === 'success' && (
+                  <div className="border border-gray-700 bg-gray-950 px-4 py-3 text-sm text-gray-200">
+                    Message drafted in WhatsApp. Your details are ready to send.
+                  </div>
+                )}
+
+                {status === 'error' && (
+                  <div className="border border-gray-700 bg-gray-950 px-4 py-3 text-sm text-gray-300">
+                    Please complete all fields before sending, or try again.
+                  </div>
+                )}
               </div>
-            </div>
+            </form>
           </div>
 
-          {/* Contact Sidebar */}
           <aside className="bg-black p-12 space-y-12">
-            {/* Direct Contact */}
             <div>
               <h2 className="text-xs tracking-[0.2em] uppercase text-gray-600 font-medium mb-8">
                 Direct Contact
               </h2>
               <div className="space-y-8">
-                <a 
-                  href="mailto:niyiroyce@gmail.com"
-                  className="group block"
-                >
+                <a href="mailto:niyiroyce@gmail.com" className="group block">
                   <div className="flex items-start gap-4">
                     <div className="mt-1">
                       <Mail className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
@@ -149,10 +192,7 @@ export default function ContactPage() {
                   </div>
                 </a>
 
-                <a 
-                  href="tel:+2348118482904"
-                  className="group block"
-                >
+                <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="group block">
                   <div className="flex items-start gap-4">
                     <div className="mt-1">
                       <Phone className="w-5 h-5 text-gray-700 group-hover:text-white transition-colors duration-300" />
@@ -170,21 +210,14 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Divider */}
             <div className="border-t border-gray-900"></div>
 
-            {/* Social Links */}
             <div>
               <h2 className="text-xs tracking-[0.2em] uppercase text-gray-600 font-medium mb-8">
                 Elsewhere
               </h2>
               <nav className="space-y-1">
-                <a 
-                  href="https://linkedin.com/in/neyfrosh"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between py-4 border-b border-gray-900 hover:border-gray-800 transition-all duration-300"
-                >
+                <a href="https://linkedin.com/in/neyfrosh" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between py-4 border-b border-gray-900 hover:border-gray-800 transition-all duration-300">
                   <div className="flex items-center gap-3">
                     <Linkedin className="w-4 h-4 text-gray-700" />
                     <span className="text-white text-sm font-light">LinkedIn</span>
@@ -192,12 +225,7 @@ export default function ContactPage() {
                   <ArrowUpRight className="w-4 h-4 text-gray-700 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
                 </a>
 
-                <a 
-                  href="https://github.com/niyiroyce"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between py-4 border-b border-gray-900 hover:border-gray-800 transition-all duration-300"
-                >
+                <a href="https://github.com/niyiroyce" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between py-4 border-b border-gray-900 hover:border-gray-800 transition-all duration-300">
                   <div className="flex items-center gap-3">
                     <Github className="w-4 h-4 text-gray-700" />
                     <span className="text-white text-sm font-light">GitHub</span>
@@ -205,42 +233,14 @@ export default function ContactPage() {
                   <ArrowUpRight className="w-4 h-4 text-gray-700 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
                 </a>
 
-                <a 
-                  href="https://twitter.com/pyniyi"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between py-4 border-b border-gray-900 hover:border-gray-800 transition-all duration-300"
-                >
+                <a href="https://twitter.com/pyniyi" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between py-4 border-b border-gray-900 hover:border-gray-800 transition-all duration-300">
                   <div className="flex items-center gap-3">
                     <Twitter className="w-4 h-4 text-gray-700" />
                     <span className="text-white text-sm font-light">Twitter</span>
                   </div>
                   <ArrowUpRight className="w-4 h-4 text-gray-700 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
                 </a>
-
-                <a 
-                  href="https://medium.com/@niyi.py"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between py-4 border-b border-gray-900 hover:border-gray-800 transition-all duration-300"
-                >
-                  <div className="flex items-center gap-3">
-                    <Edit3 className="w-4 h-4 text-gray-700" />
-                    <span className="text-white text-sm font-light">Medium</span>
-                  </div>
-                  <ArrowUpRight className="w-4 h-4 text-gray-700 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
-                </a>
               </nav>
-            </div>
-
-            {/* Response Badge */}
-            <div className="pt-8">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                <span className="text-gray-600 text-xs font-light">
-                  Usually responds within 24 hours
-                </span>
-              </div>
             </div>
           </aside>
         </div>

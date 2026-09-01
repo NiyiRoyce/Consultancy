@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2348118482904';
+
 export const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -23,7 +25,10 @@ export const ContactForm: React.FC = () => {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (response.ok && data.whatsappUrl) {
+        window.open(data.whatsappUrl, '_blank', 'noopener,noreferrer');
         setStatus('success');
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
